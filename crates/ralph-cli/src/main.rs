@@ -13,6 +13,10 @@
 //! - Hook config validation via `ralph hooks validate`
 //! - Work item tracking via `ralph task`
 
+#[cfg(target_env = "musl")]
+#[global_allocator]
+static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
+
 mod backend_support;
 mod bot;
 mod config_resolution;

@@ -159,7 +159,9 @@ teloxide = { version = "0.13", default-features = false, features = ["macros", "
 ci = "github"
 # Target platforms to build apps for (Rust target-triple syntax)
 # Windows excluded: Ralph requires Unix PTY and signal handling
-targets = ["aarch64-apple-darwin", "aarch64-unknown-linux-gnu", "x86_64-apple-darwin", "x86_64-unknown-linux-gnu"]
+# Linux uses musl (statically linked) so a single binary works on every distro
+# (AL2/AL2023, Alpine, Debian, Ubuntu) without a glibc-version compatibility matrix.
+targets = ["aarch64-apple-darwin", "aarch64-unknown-linux-musl", "x86_64-apple-darwin", "x86_64-unknown-linux-musl"]
 # The installers to generate for each app
 installers = ["shell", "npm"]
 # npm package scope (creates @ralph-orchestrator/ralph)
@@ -180,7 +182,7 @@ install-updater = false
 # Use GitHub hosted runners for builds
 # aarch64-linux uses cross-compilation from x86_64 runner
 [workspace.metadata.dist.github-custom-runners]
-aarch64-unknown-linux-gnu = "ubuntu-latest"
+aarch64-unknown-linux-musl = "ubuntu-latest"
 
 # The profile that 'dist' will build with
 [profile.dist]
